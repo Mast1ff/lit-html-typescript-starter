@@ -27,3 +27,6 @@ yarn-error.log*
 .env.production.local
 
 .env
+
+#local development
+src/typescript/_modules/MediaQuery
