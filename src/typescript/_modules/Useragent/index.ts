@@ -1,13 +1,13 @@
 import { UseragentCheck, browserTypes, deviceTypes } from './@types';
 
-class UAC implements UseragentCheck {
+export class UAC implements UseragentCheck {
     ua = window.navigator.userAgent.toLowerCase();
 
     appVer = window.navigator.appVersion;
 
     ver = this.appVer.toLowerCase();
 
-    getBrowser() {
+    getBrowser(): browserTypes {
         let _browser: browserTypes = '';
         if (this.ua.indexOf('edge') !== -1) _browser = 'edge';
         else if (this.ua.indexOf('iemobile') !== -1) _browser = 'iemobile';
@@ -26,7 +26,7 @@ class UAC implements UseragentCheck {
         return _browser;
     }
 
-    getDevice() {
+    getDevice(): deviceTypes {
         let _device: deviceTypes = '';
         if (this.ua.indexOf('iphone') !== -1 || this.ua.indexOf('ipod') !== -1) _device = 'iphone';
         else if (this.ua.indexOf('ipad') !== -1) _device = 'ipad';
@@ -36,7 +36,7 @@ class UAC implements UseragentCheck {
         return _device;
     }
 
-    getIosVer() {
+    getIosVer(): number {
         const platform = window.navigator.platform;
         if (/iP(hone|od|ad)/.test(platform)) {
             const v = this.appVer.match(/OS (\d+)_(\d+)_?(\d+)?/);
@@ -69,7 +69,3 @@ class UAC implements UseragentCheck {
 
     isModern = !(this.browser === 'ie6' || this.browser === 'ie7' || this.browser === 'ie8' || this.browser === 'ie9' || (this.iosVer > 0 && this.iosVer < 8));
 }
-
-export {
-    UAC,
-};
