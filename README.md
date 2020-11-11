@@ -3,6 +3,7 @@
 [lit-html](https://lit-html.polymer-jp.org/)  
 [typescript](https://www.typescriptlang.org/)  
 [webpack](https://webpack.js.org/)  
+[RxJS](https://rxjs-dev.firebaseapp.com/)
 
 ## commands
 ```
