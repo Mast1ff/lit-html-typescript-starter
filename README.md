@@ -5,6 +5,7 @@
 yarn dev
 ```
 `src/sass/*.scss`と`src/typescript/*.ts`をそれぞれ`public/dist`へコンパイル
+`localhost:8000`でサーバーを起動
 
 ```
 yarn build
