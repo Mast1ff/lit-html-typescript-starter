@@ -1,5 +1,9 @@
 大量にLPを生成するためのツール
 
+[lit-html](https://lit-html.polymer-jp.org/)
+[typescript](https://www.typescriptlang.org/)
+[webpack](https://webpack.js.org/)
+
 ## commands
 ```
 yarn dev
