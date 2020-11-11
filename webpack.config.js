@@ -51,11 +51,22 @@ module.exports = {
     module: {
         rules: [
             {
-                test: /.ts$/,
-                exclude: /node_modules\/(?!(lit-html|lit-element))\//,
-                use: {
-                    loader: 'ts-loader',
-                },
+                test: /\.js$/,
+                exclude: /core-js/,
+                use: [
+                    {
+                        loader: 'babel-loader',
+                        options: {
+                            presets: ['@babel/preset-env'],
+                        },
+                    },
+                ],
+            },
+            {
+                test: /\.(js|ts)$/,
+                use: 'ts-loader',
+                // exclude: /node_modules\/(?!(lit-html|ullr))\//,
+                exclude: /node_modules/,
             },
         ],
     },
