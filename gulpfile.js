@@ -6,22 +6,32 @@ const postcss = require('gulp-postcss');
 const autoprefixer = require('autoprefixer');
 
 const { version } = require('./package.json');
-const env = process.env.NODE_ENV;
-const isProd = env === 'production';
-const destDir = !isProd ? './public/dist/dev/css' : `./public/dist/${version}/css`;
 
 const sassCompile = (done) => {
     gulp
         .src('./src/sass/*.scss')
         .pipe(sass({
-            outputStyle: isProd ? 'compressed' : 'expanded',
+            outputStyle: 'expanded',
         }))
         .pipe(postcss([autoprefixer()]))
-        .pipe(gulp.dest(destDir));
+        .pipe(gulp.dest('./public/dist/dev/css'));
+    done();
+};
+
+const sassCompileProd = (done) => {
+    gulp
+        .src('./src/sass/*.scss')
+        .pipe(sass({
+            outputStyle: 'compressed',
+        }))
+        .pipe(postcss([autoprefixer()]))
+        .pipe(gulp.dest(`./public/dist/${version}/css`));
     done();
 };
 
 gulp.task('sass', sassCompile);
+
+gulp.task('sass:build', sassCompileProd);
 
 gulp.task('sass:watch', (done) => {
     gulp.watch('./src/sass/*.scss', gulp.task('sass'));

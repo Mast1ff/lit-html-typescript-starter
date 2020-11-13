@@ -3,15 +3,15 @@
     "version": "1.0.0",
     "private": true,
     "scripts": {
-        "webpack:dev": "cross-env NODE_ENV=development npx webpack --config ./webpack.config.js -w",
-        "webpack:build": "cross-env NODE_ENV=production npx webpack --config ./webpack.config.js",
-        "scss:dev": "cross-env NODE_ENV=development npx gulp sass:watch",
-        "scss:build": "cross-env NODE_ENV=production npx gulp sass",
+        "webpack:dev": "npx webpack --config ./webpack.config.js -w",
+        "webpack:build": "npx webpack --config ./webpack.config.js",
+        "scss:dev": "npx gulp sass:watch",
+        "scss:build": "npx gulp sass:build",
         "build:dev": "concurrently --kill-others \"yarn webpack:dev\" \"yarn scss:dev\"",
         "browser": "opener http://localhost:8000",
         "serve": "concurrently \"node server.js\" \"yarn browser\" ",
-        "dev": "concurrently --kill-others \"yarn webpack:dev\" \"yarn scss:dev\" \"yarn serve\"",
-        "build": "yarn webpack:build && yarn scss:build"
+        "dev": "cross-env NODE_ENV=development concurrently --kill-others \"yarn webpack:dev\" \"yarn scss:dev\" \"yarn serve\"",
+        "build": "cross-env NODE_ENV=production yarn webpack:build && yarn scss:build"
     },
     "dependencies": {
         "core-js": "3",
