@@ -4,6 +4,7 @@ import { Subscribable } from 'rxjs';
 type SubscribableOrPromiseLike<T> = Subscribable<T> | PromiseLike<T>;
 
 interface PreviousValue<T> {
+    readonly initialValue: T
     readonly value: T
     readonly subscribableOrPromiseLike: SubscribableOrPromiseLike<T>;
 }
@@ -12,8 +13,9 @@ const previousValues = new WeakMap<Part, PreviousValue<unknown>>();
 
 const subscribe = directive(
     <T>(subscribableOrPromiseLike: SubscribableOrPromiseLike<T>) => {
-        return (
+        return <S>(
             part: Part,
+            initialValue: S
         ) => {
             if (
                 !('then' in subscribableOrPromiseLike)
@@ -35,7 +37,7 @@ const subscribe = directive(
                 }
                 part.setValue(value);
                 part.commit();
-                previousValues.set(part, { value, subscribableOrPromiseLike });
+                previousValues.set(part, { initialValue, value, subscribableOrPromiseLike });
             };
             if ('then' in subscribableOrPromiseLike) {
                 subscribableOrPromiseLike.then(cb);

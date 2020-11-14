@@ -1,95 +1,50 @@
+/**
+ * @memo ポリフィル群
+ * - core-js/stable lit-htmlなどのブラウザ互換の吸収。読込必須。
+ * - regenerator-runtime/runtime 上記同様、読込必須。
+ * - intersection-observer IntersectionObserverAPIのポリフィル。使用する場合は読込。
+ */
 import 'core-js/stable';
 import 'regenerator-runtime/runtime';
-import { html, render } from 'lit-html';
-import { repeat } from 'lit-html/directives/repeat';
+// import 'intersection-observer';
+
+/**
+ * @memo lit-htmlライブラリ
+ * HTMLのレンダリング用軽量ライブラリ。
+ * 各種サンプルを参照
+ * - { initTemplatePolyfill } - lit-htmlを仕様する場合に必ず読込と関数の実行をindex.tsの最上部で行うこと。
+ */
+import { render } from 'lit-html';
 import { initTemplatePolyfill } from 'lit-html/polyfills/template_polyfill';
-import * as rxjs from 'rxjs';
-
-import { subscribe } from './_modules/Subscribe';
-import Button from './_components/Button';
-
 initTemplatePolyfill();
 
-const msState = {
-    sw: false,
-};
-const message = new rxjs.BehaviorSubject('Hello world!!');
-const click = <T>(store: rxjs.BehaviorSubject<T>) => {
-    return (next: () => T) => {
-        return () => {
-            return store.next(next());
-        };
-    };
-};
-const buttonClick = click(message);
-const mainTemplate = html`
-    <div class="main_container">
-    <h1>
-        ${subscribe(message)}
-    </h1>
-    ${Button(
-        buttonClick(() => {
-            msState.sw = !msState.sw;
-            return msState.sw ? 'Hello world??' : 'Hello world!!';
-        }),
-        'click me!!',
-        'button'
-    )}
-    </div>
-`;
+import { listATemplate, listBTemplate } from './_samples/repeat';
+import { htmlTemplate } from './_samples/unsafeHTML';
+import { styleMapTemplate } from './_samples/styleMap';
+import { stringStateTemplate, arrayStateTemplate } from './_samples/withState';
 
-type TList = {
-    name: string
-    label: string
-    path: string
-    newTab?: boolean
-}[]
+const repeatARoot = document.getElementById('__repeat-a');
+const repeatBRoot = document.getElementById('__repeat-b');
+const unsafeHTMLRoot = document.getElementById('__unsafe-html');
+const styleMapRoot = document.getElementById('__style-map');
+const createStateARoot = document.getElementById('__create-state-a');
+const createStateBRoot = document.getElementById('__create-state-b');
 
-const list: TList = [
-    {
-        name: 'ほーむ',
-        label: 'home',
-        path: '/',
-    },
-    {
-        name: 'ぎっとはぶ',
-        label: 'Github',
-        path: 'https://github.com/NSI-Co-Ltd/lit-html-typescript',
-        newTab: true,
-    },
-];
-const headerTemplate = html`
-    <header class="header">
-    <ul>
-    ${repeat(
-        list,
-        (item) => {
-            return item.label;
-        },
-        (item) => {
-            return html`<li>
-                            <a
-                                href=${item.path}
-                                target=${item.newTab ? '_blank' : ''}
-                                rel=${item.newTab ? 'noopener noreferrer' : ''}
-                            >
-                                    ${item.name}
-                                </a>
-                        </li>
-                    `;
-        }
-    )}
-    </ul>
-    </header>
-`;
-
-const headerRoot = document.getElementById('__header');
-const mainRoot = document.getElementById('__main');
-
-if (mainRoot) {
-    render(mainTemplate, mainRoot);
+if (repeatARoot) {
+    render(listATemplate, repeatARoot);
 }
-
-if (headerRoot) {
-    render(headerTemplate, headerRoot);
+if (repeatBRoot) {
+    render(listBTemplate, repeatBRoot);
+}
+if (unsafeHTMLRoot) {
+    render(htmlTemplate, unsafeHTMLRoot);
+}
+if (styleMapRoot) {
+    render(styleMapTemplate, styleMapRoot);
+}
+if (createStateARoot) {
+    render(stringStateTemplate, createStateARoot);
+}
+if (createStateBRoot) {
+    render(arrayStateTemplate, createStateBRoot);
 }
