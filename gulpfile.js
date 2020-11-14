@@ -13,7 +13,13 @@ const sassCompile = (done) => {
         .pipe(sass({
             outputStyle: 'expanded',
         }))
-        .pipe(postcss([autoprefixer()]))
+        .pipe(postcss([
+            autoprefixer(
+                {
+                // overrideBrowserslist: ['last 2 versions', '> 2%'],
+                }
+            ),
+        ]))
         .pipe(gulp.dest('./public/dist/dev/css'));
     done();
 };

@@ -31,3 +31,4 @@ debug.log
 
 #local development
 src/typescript/_modules/MediaQuery
+_.browserslistrc
